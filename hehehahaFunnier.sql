@@ -12,7 +12,7 @@ CREATE TABLE IF NOT EXISTS public.developer
 CREATE TABLE IF NOT EXISTS public.games
 (
     "gameName" character varying COLLATE pg_catalog."default",
-    "gameId" uuid
+    "gameId" uuid PRIMARY KEY
 );
 
 CREATE TABLE IF NOT EXISTS public.genre
