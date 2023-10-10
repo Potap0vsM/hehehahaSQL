@@ -3,38 +3,42 @@
 BEGIN;
 
 
-CREATE TABLE IF NOT EXISTS public.developer
-(
-    "studioName" character varying COLLATE pg_catalog."default",
-    "studioId" uuid
-);
-
-CREATE TABLE IF NOT EXISTS public.games
-(
-    "gameName" character varying COLLATE pg_catalog."default",
-    "gameId" uuid PRIMARY KEY
-);
-
 CREATE TABLE IF NOT EXISTS public.genre
 (
     "genreName" character varying COLLATE pg_catalog."default",
-    "genreId" uuid
+    "genreId" uuid PRIMARY KEY
 );
 
 CREATE TABLE IF NOT EXISTS public.platform
 (
     "platName" character varying COLLATE pg_catalog."default",
-    "platId" uuid
+    "platId" uuid PRIMARY KEY
 );
 
 CREATE TABLE IF NOT EXISTS public."yearOfRelease"
 (
     "yearNum" integer,
-    "yearId" uuid
+    "yearId" uuid PRIMARY KEY
+);
+
+CREATE TABLE IF NOT EXISTS public.developer
+(
+    "studioName" character varying COLLATE pg_catalog."default",
+    "studioId" uuid PRIMARY KEY,
+    gamess_data smallint
+);
+
+CREATE TABLE IF NOT EXISTS public.games
+(
+    "gameName" character varying COLLATE pg_catalog."default",
+    "gameId" uuid PRIMARY KEY,
+    "releaseYear" smallint,
+    genre_data smallint,
+    platfrom_data smallint
 );
 
 ALTER TABLE IF EXISTS public.developer
-    ADD FOREIGN KEY ("studioId")
+    ADD FOREIGN KEY (gamess_data)
     REFERENCES public.games ("gameId") MATCH SIMPLE
     ON UPDATE NO ACTION
     ON DELETE NO ACTION
@@ -42,15 +46,15 @@ ALTER TABLE IF EXISTS public.developer
 
 
 ALTER TABLE IF EXISTS public.games
-    ADD FOREIGN KEY ("gameId")
-    REFERENCES public.genre ("genreId") MATCH SIMPLE
+    ADD FOREIGN KEY ("releaseYear")
+    REFERENCES public."yearOfRelease" ("yearId") MATCH SIMPLE
     ON UPDATE NO ACTION
     ON DELETE NO ACTION
     NOT VALID;
 
 
 ALTER TABLE IF EXISTS public.games
-    ADD FOREIGN KEY ("gameId")
+    ADD FOREIGN KEY (platfrom_data)
     REFERENCES public.platform ("platId") MATCH SIMPLE
     ON UPDATE NO ACTION
     ON DELETE NO ACTION
@@ -58,8 +62,8 @@ ALTER TABLE IF EXISTS public.games
 
 
 ALTER TABLE IF EXISTS public.games
-    ADD FOREIGN KEY ("gameId")
-    REFERENCES public."yearOfRelease" ("yearId") MATCH SIMPLE
+    ADD FOREIGN KEY (genre_data)
+    REFERENCES public.genre ("genreId") MATCH SIMPLE
     ON UPDATE NO ACTION
     ON DELETE NO ACTION
     NOT VALID;
