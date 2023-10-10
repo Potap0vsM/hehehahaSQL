@@ -1,0 +1,1 @@
+Ko es vispar daru
